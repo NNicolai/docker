@@ -1,0 +1,31 @@
+version: "2.1"
+
+services:
+  php80-cli:
+    build:
+      context: .
+      dockerfile: php80.Dockerfile
+    image: php-apache:8.0
+    environment:
+      PHP_IDE_CONFIG: "serverName=php80.docker"
+  php81-cli:
+    build:
+      context: .
+      dockerfile: php81.Dockerfile
+    image: php-apache:8.1
+    environment:
+      PHP_IDE_CONFIG: "serverName=php81.docker"
+  php80-production-cli:
+    build:
+      context: .
+      dockerfile: php80-production.Dockerfile
+    image: php-apache:8.0-production
+    environment:
+      PHP_IDE_CONFIG: "serverName=php80-production.docker"
+  php81-production-cli:
+    build:
+      context: .
+      dockerfile: php81-production.Dockerfile
+    image: php-apache:8.1-production
+    environment:
+      PHP_IDE_CONFIG: "serverName=php81-production.docker"
