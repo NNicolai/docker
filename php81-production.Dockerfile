@@ -25,4 +25,6 @@ RUN    sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites
     && cd /etc/apache2/mods-enabled && ln -s ../mods-available/rewrite.load ./                                         \
     && cp ${PHP_INI_PATH}-production $PHP_INI_PATH
     
+RUN sed -i 's/memory_limit = 128M/memory_limit = 1024M/' $PHP_INI_PATH
+
 EXPOSE 80

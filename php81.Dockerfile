@@ -31,4 +31,6 @@ RUN    sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites
     && echo "xdebug.discover_client_host = off"         >> $PHP_INI_PATH                                               \
     && echo "xdebug.log_level = 0"                      >> $PHP_INI_PATH
 
+RUN sed -i 's/memory_limit = 128M/memory_limit = 2048M/' $PHP_INI_PATH
+
 EXPOSE 80
