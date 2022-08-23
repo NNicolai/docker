@@ -23,8 +23,15 @@ ENV PHP_INI_PATH /usr/local/etc/php/php.ini
 RUN    sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf                      \
     && sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf \
     && cd /etc/apache2/mods-enabled && ln -s ../mods-available/rewrite.load ./                                         \
-    && cp ${PHP_INI_PATH}-production $PHP_INI_PATH
-    
+    && cp ${PHP_INI_PATH}-development $PHP_INI_PATH                                                                    \
+    && echo "xdebug.mode = profile"                     >> $PHP_INI_PATH                                               \
+    && echo "xdebug.start_with_request = yes"           >> $PHP_INI_PATH                                               \
+    && echo "xdebug.client_host = host.docker.internal" >> $PHP_INI_PATH                                               \
+    && echo "xdebug.client_port = 9000"                 >> $PHP_INI_PATH                                               \
+    && echo "xdebug.discover_client_host = off"         >> $PHP_INI_PATH                                               \
+    && echo "xdebug.log_level = 0"                      >> $PHP_INI_PATH                                               \
+    && echo "xdebug.output_dir = \"/var/www/html/storage/logs/\"" >> $PHP_INI_PATH
+
 RUN sed -i 's/memory_limit = 128M/memory_limit = 2048M/' $PHP_INI_PATH
 
 EXPOSE 80
