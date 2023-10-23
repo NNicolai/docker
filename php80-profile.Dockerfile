@@ -33,7 +33,7 @@ RUN    sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites
     && echo "xdebug.log_level = 0"                      >> $PHP_INI_PATH                                               \
     && echo "xdebug.output_dir = \"/var/www/html/storage/logs/\"" >> $PHP_INI_PATH                                     \
     && sed -i 's/memory_limit = 128M/memory_limit = 2048M/' $PHP_INI_PATH                                              \
-    && sed -i 's/error_reporting = E_ALL/error_reporting = E_STRICT/' $PHP_INI_PATH
+    && sed -i 's/error_reporting = E_ALL/error_reporting = E_ALL \& ~E_DEPRECATED/' $PHP_INI_PATH
 
 RUN [ ! -z ${APACHE_CONFIG} ] && echo "LimitRequestLine 65536" >> $APACHE_CONFIG
 

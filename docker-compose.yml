@@ -15,6 +15,13 @@ services:
     image: php-apache:8.1
     environment:
       PHP_IDE_CONFIG: "serverName=php81.docker"
+  php82-cli:
+    build:
+      context: .
+      dockerfile: php82.Dockerfile
+    image: php-apache:8.2
+    environment:
+      PHP_IDE_CONFIG: "serverName=php82.docker"
   php80-production-cli:
     build:
       context: .
