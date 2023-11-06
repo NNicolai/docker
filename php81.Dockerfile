@@ -1,16 +1,15 @@
 FROM php:8.1-apache
 
 RUN apt-get update                                         \
-    && apt-get install -y libmemcached-dev zlib1g-dev      \
-    && apt-get install -y netcat git zip unzip jq          \
+    && apt-get install -y zlib1g-dev      \
+    && apt-get install -y netcat-traditional git zip unzip jq          \
     && apt-get install -y libzip-dev libpng-dev libicu-dev \
     && rm -rf /var/lib/apt/lists/*
 
-RUN pecl install memcached-3.1.5                      \
-    && pecl install xdebug-3.1.4                      \
+RUN pecl install xdebug-3.1.4                      \
     && pecl install zip
     
-RUN docker-php-ext-enable memcached xdebug zip        \
+RUN docker-php-ext-enable xdebug zip        \
     && docker-php-ext-configure gd                    \
     && docker-php-ext-configure intl                  \
     && docker-php-ext-install pdo pdo_mysql bcmath gd intl
@@ -38,9 +37,9 @@ RUN    sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites
 RUN [ ! -z ${APACHE_CONFIG} ] && echo "LimitRequestLine 512000" >> $APACHE_CONFIG
 
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
- && php -r "if (hash_file('sha384', 'composer-setup.php') === '55ce33d7678c5a611085589f1f3ddf8b3c52d662cd01d4ba75c0ee0459970c2200a51f492d557530c71c15d8dba01eae') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;" \
- && php composer-setup.php \
- && php -r "unlink('composer-setup.php');" \
+    && php -r "if (hash_file('sha384', 'composer-setup.php') === 'e21205b207c3ff031906575712edab6f13eb0b361f2085f1f1237b7126d785e826a450292b6cfd1d64d92e6563bbde02') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;" \
+    && php composer-setup.php \
+    && php -r "unlink('composer-setup.php');" \
  && mv composer.phar /usr/local/bin/composer
 
 EXPOSE 80
